@@ -1,0 +1,60 @@
+<Html>
+
+<head>
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            
+            authDomain: "alibenghthehom.firebaseapp.com",
+            databaseURL: "https://alibenghthehom.firebaseio.com",
+            projectId: "alibenghthehom",
+            storageBucket: "alibenghthehom.appspot.com",
+           
+        };
+        firebase.initializeApp(config);
+    </script>
+
+</head>
+
+<body>
+    <form id="fourma">
+        <input type="text" id="nameali">
+        <button type='submit'>send</button>
+    </form>
+    <h1 id="Bassem">Bassem + Malek =</h1>
+    <script>
+
+        document.getElementById('fourma').addEventListener('submit', send)
+        
+        //senddata
+        function send(event) {
+            event.preventDefault()
+            var name = document.getElementById('nameali').value
+            sendData(name)
+        }
+        var feedbacks = firebase.database().ref('Achour')
+        function sendData(name) {
+            var fb = feedbacks.push()
+            fb.set({
+                user: name
+            })
+        }
+        //receive data
+
+        var feedback = firebase.database().ref('feedbacks')
+
+        function receivedata() {
+
+            feedbacks.once('value').then(function (data) {
+                data.forEach(element => {
+                    document.getElementById('Bassem').innerHTML += '<br/>' + element.val().user
+                });
+            })
+        }
+        receivedata()
+
+    </script>
+</body>
+
+</Html>
